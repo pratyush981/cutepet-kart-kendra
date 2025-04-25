@@ -22,13 +22,14 @@ const PetShopContext = createContext<PetShopContextType | undefined>(undefined);
 
 // Sample pet data
 const petsData: Pet[] = [
+  // Dogs
   {
     id: "dog1",
     name: "Raja",
     category: "dog",
     image: "https://images.unsplash.com/photo-1543466835-00a7907e9de1",
     price: 15000,
-    description: "A playful Labrador retriever who loves to run and fetch.",
+    description: "A playful Labrador retriever who loves to run and fetch. Raja enjoys swimming, playing with tennis balls, and cuddling with his humans. He's great with children and other pets.",
     age: "2 years",
     breed: "Labrador Retriever"
   },
@@ -38,109 +39,143 @@ const petsData: Pet[] = [
     category: "dog",
     image: "https://images.unsplash.com/photo-1587300003388-59208cc962cb",
     price: 12000,
-    description: "An energetic Beagle who loves to play with toys.",
+    description: "An energetic Beagle who loves to play with toys. Sheru has a keen sense of smell and enjoys tracking scents. He's food-motivated and would make a great companion for an active family.",
     age: "1 year",
     breed: "Beagle"
   },
   {
-    id: "dog3",
-    name: "Moti",
+    id: "dog4",
+    name: "Bruno",
     category: "dog",
-    image: "https://images.unsplash.com/photo-1583511655826-05700a84f4c8",
-    price: 18000,
-    description: "A gentle Golden Retriever who loves everyone.",
-    age: "3 years",
-    breed: "Golden Retriever"
+    image: "https://images.unsplash.com/photo-1576201836106-db1758fd1c97",
+    price: 20000,
+    description: "A gentle German Shepherd with excellent guard dog instincts. Bruno is highly intelligent, easy to train, and incredibly loyal. He enjoys puzzle toys and agility training.",
+    age: "1.5 years",
+    breed: "German Shepherd"
   },
+  {
+    id: "dog5",
+    name: "Lucy",
+    category: "dog",
+    image: "https://images.unsplash.com/photo-1615233500064-caa995e2f9dd",
+    price: 22000,
+    description: "A beautiful Husky with striking blue eyes. Lucy loves cold weather and is very vocal. She needs an active family who can provide lots of exercise and mental stimulation.",
+    age: "8 months",
+    breed: "Siberian Husky"
+  },
+  // Cats
   {
     id: "cat1",
     name: "Billi",
     category: "cat",
     image: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba",
     price: 8000,
-    description: "A curious Siamese cat who loves to explore.",
+    description: "A curious Siamese cat who loves to explore. Billi is very vocal and will tell you all about her day. She enjoys window watching and playing with string toys.",
     age: "1 year",
     breed: "Siamese"
   },
   {
-    id: "cat2",
-    name: "Rani",
+    id: "cat4",
+    name: "Shadow",
     category: "cat",
-    image: "https://images.unsplash.com/photo-1573865526739-10659fec78a5",
-    price: 9500,
-    description: "A lazy Persian cat who loves to sleep all day.",
-    age: "2 years",
-    breed: "Persian"
+    image: "https://images.unsplash.com/photo-1533743983669-94fa5c4338ec",
+    price: 6500,
+    description: "A mysterious black cat with golden eyes. Shadow is quiet and dignified, enjoys peaceful naps in sunbeams, and is an excellent mouser. Perfect for those who appreciate elegant cats.",
+    age: "3 years",
+    breed: "Bombay"
   },
   {
-    id: "cat3",
-    name: "Mittens",
+    id: "cat5",
+    name: "Luna",
     category: "cat",
-    image: "https://images.unsplash.com/photo-1495360010541-f48722b34f7d",
-    price: 7500,
-    description: "A playful domestic cat with a love for toys.",
-    age: "8 months",
-    breed: "Domestic Shorthair"
+    image: "https://images.unsplash.com/photo-1519052537078-e6302a4968d4",
+    price: 12000,
+    description: "A gorgeous Maine Coon with a luxurious coat. Luna is gentle despite her large size, loves being brushed, and gets along well with dogs. She's known for her chirping sounds.",
+    age: "1.5 years",
+    breed: "Maine Coon"
   },
+  // Birds
   {
     id: "bird1",
     name: "Mithu",
     category: "bird",
     image: "https://images.unsplash.com/photo-1552728089-57bdde30beb3",
     price: 5000,
-    description: "A colorful parrot who can mimic sounds.",
+    description: "A colorful Indian Ringneck who can mimic sounds and words. Mithu loves dancing to music, enjoys head scratches, and has already learned several phrases. Very social and interactive.",
     age: "1 year",
     breed: "Indian Ringneck Parrot"
   },
   {
-    id: "bird2",
-    name: "Chitti",
+    id: "bird4",
+    name: "Sunny",
     category: "bird",
-    image: "https://images.unsplash.com/photo-1452570053594-1b985d6ea890",
-    price: 3000,
-    description: "A melodious canary with beautiful song.",
-    age: "6 months",
-    breed: "Canary"
+    image: "https://images.unsplash.com/photo-1522858547137-f1dcec554f55",
+    price: 7500,
+    description: "A vibrant Sun Conure with a bold personality. Sunny loves attention, makes great alarm clock with morning chirps, and enjoys learning tricks for treats. Very affectionate with family.",
+    age: "9 months",
+    breed: "Sun Conure"
   },
   {
-    id: "bird3",
-    name: "Rio",
+    id: "bird5",
+    name: "Koko",
     category: "bird",
-    image: "https://images.unsplash.com/photo-1550853024-fae8cd4be47f",
-    price: 6000,
-    description: "A beautiful Blue Macaw with vibrant feathers.",
+    image: "https://images.unsplash.com/photo-1544181093-c712fb401bdc",
+    price: 15000,
+    description: "An intelligent African Grey Parrot. Koko has an extensive vocabulary and can mimic household sounds perfectly. Enjoys puzzle toys and requires mental stimulation.",
     age: "2 years",
-    breed: "Blue Macaw"
+    breed: "African Grey"
   },
+  // Small Pets
   {
     id: "small1",
     name: "Chuha",
     category: "small-pet",
     image: "https://images.unsplash.com/photo-1425082661705-1834bfd09dca",
     price: 1500,
-    description: "An adorable hamster who loves to run on his wheel.",
+    description: "An adorable hamster who loves to run on his wheel. Chuha enjoys collecting sunflower seeds, building intricate nests, and being hand-fed treats. Perfect first pet for responsible children.",
     age: "3 months",
     breed: "Syrian Hamster"
   },
   {
-    id: "small2",
-    name: "Bunty",
+    id: "small4",
+    name: "Pip",
     category: "small-pet",
-    image: "https://images.unsplash.com/photo-1591561582301-7ce6588cc286",
-    price: 4000,
-    description: "A fluffy rabbit who loves to hop around.",
-    age: "8 months",
-    breed: "Holland Lop Rabbit"
+    image: "https://images.unsplash.com/photo-1626176576506-1188be7c37c9",
+    price: 3000,
+    description: "A friendly gerbil who loves to dig tunnels. Pip is social, enjoys climbing, and makes an entertaining pet. Best kept in pairs or small groups for companionship.",
+    age: "4 months",
+    breed: "Mongolian Gerbil"
+  },
+  // Exotic Pets
+  {
+    id: "exotic1",
+    name: "Ziggy",
+    category: "exotic",
+    image: "https://images.unsplash.com/photo-1503256207526-0d5d80fa2f47",
+    price: 25000,
+    description: "A captivating Bearded Dragon with a gentle temperament. Ziggy enjoys basking under his heat lamp, eating fresh vegetables, and being handled. Great for reptile enthusiasts.",
+    age: "2 years",
+    breed: "Central Bearded Dragon"
   },
   {
-    id: "small3",
-    name: "Tommy",
-    category: "small-pet",
-    image: "https://images.unsplash.com/photo-1548767797-d8c844163c4c",
-    price: 2500,
-    description: "A curious guinea pig who loves fresh vegetables.",
-    age: "1 year",
-    breed: "American Guinea Pig"
+    id: "exotic2",
+    name: "Monty",
+    category: "exotic",
+    image: "https://images.unsplash.com/photo-1582454235987-8ded7d90f5b7",
+    price: 18000,
+    description: "A beautiful Ball Python with stunning patterns. Monty is docile, easy to handle, and perfect for first-time snake owners. Enjoys exploring and gentle handling.",
+    age: "3 years",
+    breed: "Ball Python"
+  },
+  {
+    id: "exotic3",
+    name: "Flash",
+    category: "exotic",
+    image: "https://images.unsplash.com/photo-1584553421349-3557471bed79",
+    price: 35000,
+    description: "A rare Green Iguana with vibrant coloring. Flash enjoys climbing, basking in sunlight, and eating fresh greens. Requires specialized care and environment.",
+    age: "4 years",
+    breed: "Green Iguana"
   }
 ];
 
