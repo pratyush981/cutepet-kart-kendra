@@ -10,9 +10,11 @@ export interface Pet {
   breed: string;
 }
 
-export type PetCategory = 'dog' | 'cat' | 'bird' | 'small-pet';
+export type PetCategory = 'dog' | 'cat' | 'bird' | 'small-pet' | 'exotic';
 
 export interface CartItem {
   pet: Pet;
   quantity: number;
 }
+
+export type SortOption = 'price-low' | 'price-high' | 'name-asc' | 'name-desc' | 'age-low' | 'age-high';

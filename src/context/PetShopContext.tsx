@@ -1,6 +1,5 @@
-
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { Pet, CartItem, PetCategory } from "@/types/PetTypes";
+import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
+import { Pet, CartItem, PetCategory, SortOption } from "@/types/PetTypes";
 import { toast } from "sonner";
 
 interface PetShopContextType {
@@ -15,6 +14,8 @@ interface PetShopContextType {
   filterByCategory: (category: PetCategory | 'all') => void;
   filteredPets: Pet[];
   activeCategory: PetCategory | 'all';
+  sortPets: (option: SortOption) => void;
+  activeSortOption: SortOption;
 }
 
 const PetShopContext = createContext<PetShopContextType | undefined>(undefined);
@@ -146,8 +147,8 @@ const petsData: Pet[] = [
 export const PetShopProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [pets] = useState<Pet[]>(petsData);
   const [cart, setCart] = useState<CartItem[]>([]);
-  const [filteredPets, setFilteredPets] = useState<Pet[]>(petsData);
   const [activeCategory, setActiveCategory] = useState<PetCategory | 'all'>('all');
+  const [activeSortOption, setActiveSortOption] = useState<SortOption>('name-asc');
 
   // Load cart from localStorage on initial render
   useEffect(() => {
@@ -227,6 +228,27 @@ export const PetShopProvider: React.FC<{ children: React.ReactNode }> = ({ child
     }
   };
 
+  const sortPets = (option: SortOption) => {
+    setActiveSortOption(option);
+  };
+
+  const filteredPets = useMemo(() => {
+    let result = activeCategory === 'all' ? pets : pets.filter(pet => pet.category === activeCategory);
+
+    switch (activeSortOption) {
+      case 'price-low':
+        return result.sort((a, b) => a.price - b.price);
+      case 'price-high':
+        return result.sort((a, b) => b.price - a.price);
+      case 'name-asc':
+        return result.sort((a, b) => a.name.localeCompare(b.name));
+      case 'name-desc':
+        return result.sort((a, b) => b.name.localeCompare(a.name));
+      default:
+        return result;
+    }
+  }, [pets, activeCategory, activeSortOption]);
+
   const value = {
     pets,
     cart,
@@ -238,7 +260,9 @@ export const PetShopProvider: React.FC<{ children: React.ReactNode }> = ({ child
     totalItems,
     filterByCategory,
     filteredPets,
-    activeCategory
+    activeCategory,
+    sortPets,
+    activeSortOption
   };
 
   return <PetShopContext.Provider value={value}>{children}</PetShopContext.Provider>;

@@ -4,6 +4,7 @@ import Layout from "@/components/Layout";
 import PetCard from "@/components/PetCard";
 import Hero from "@/components/Hero";
 import CategoryFilter from "@/components/CategoryFilter";
+import SortOptions from "@/components/SortOptions";
 import { usePetShop } from "@/context/PetShopContext";
 
 const Index = () => {
@@ -26,6 +27,7 @@ const Index = () => {
         
         <div className="mt-12" id="pets">
           <CategoryFilter />
+          <SortOptions />
           
           <h2 className="text-2xl font-bold mb-6 text-center">Our Adorable Pets</h2>
           
