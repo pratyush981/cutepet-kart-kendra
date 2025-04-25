@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { usePetShop } from "@/context/PetShopContext";
 import { SortOption } from "@/types/PetTypes";
-import { ArrowDownAZ, ArrowUpAZ } from "lucide-react";
+import { ArrowDownAZ, ArrowUpAZ, Clock } from "lucide-react";
 
 const SortOptions = () => {
   const { sortPets, activeSortOption } = usePetShop();
@@ -12,6 +12,8 @@ const SortOptions = () => {
     { value: "price-high", label: "Price: High to Low" },
     { value: "name-asc", label: "Name: A to Z", icon: <ArrowDownAZ className="h-4 w-4" /> },
     { value: "name-desc", label: "Name: Z to A", icon: <ArrowUpAZ className="h-4 w-4" /> },
+    { value: "age-low", label: "Age: Youngest First", icon: <Clock className="h-4 w-4" /> },
+    { value: "age-high", label: "Age: Oldest First", icon: <Clock className="h-4 w-4" /> },
   ];
 
   return (

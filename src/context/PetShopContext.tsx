@@ -221,15 +221,22 @@ export const PetShopProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const filterByCategory = (category: PetCategory | 'all') => {
     setActiveCategory(category);
-    if (category === 'all') {
-      setFilteredPets(pets);
-    } else {
-      setFilteredPets(pets.filter(pet => pet.category === category));
-    }
   };
 
   const sortPets = (option: SortOption) => {
     setActiveSortOption(option);
+  };
+
+  // Helper function to parse age strings for comparison
+  const parseAge = (ageString: string): number => {
+    const years = /(\d+)\s*years?/.exec(ageString);
+    const months = /(\d+)\s*months?/.exec(ageString);
+    
+    let totalMonths = 0;
+    if (years) totalMonths += parseInt(years[1]) * 12;
+    if (months) totalMonths += parseInt(months[1]);
+    
+    return totalMonths;
   };
 
   const filteredPets = useMemo(() => {
@@ -244,6 +251,10 @@ export const PetShopProvider: React.FC<{ children: React.ReactNode }> = ({ child
         return result.sort((a, b) => a.name.localeCompare(b.name));
       case 'name-desc':
         return result.sort((a, b) => b.name.localeCompare(a.name));
+      case 'age-low':
+        return result.sort((a, b) => parseAge(a.age) - parseAge(b.age));
+      case 'age-high':
+        return result.sort((a, b) => parseAge(b.age) - parseAge(a.age));
       default:
         return result;
     }
