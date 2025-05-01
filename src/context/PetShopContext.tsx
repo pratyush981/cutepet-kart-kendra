@@ -16,6 +16,7 @@ interface PetShopContextType {
   activeCategory: PetCategory | 'all';
   sortPets: (option: SortOption) => void;
   activeSortOption: SortOption;
+  addPet: (pet: Pet) => void;
 }
 
 const PetShopContext = createContext<PetShopContextType | undefined>(undefined);
@@ -180,7 +181,7 @@ const petsData: Pet[] = [
 ];
 
 export const PetShopProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [pets] = useState<Pet[]>(petsData);
+  const [pets, setPets] = useState<Pet[]>(petsData);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [activeCategory, setActiveCategory] = useState<PetCategory | 'all'>('all');
   const [activeSortOption, setActiveSortOption] = useState<SortOption>('name-asc');
@@ -295,6 +296,11 @@ export const PetShopProvider: React.FC<{ children: React.ReactNode }> = ({ child
     }
   }, [pets, activeCategory, activeSortOption]);
 
+  const addPet = (pet: Pet) => {
+    setPets(prevPets => [...prevPets, pet]);
+    toast.success(`${pet.name} has been added to the pet shop!`);
+  };
+
   const value = {
     pets,
     cart,
@@ -308,7 +314,8 @@ export const PetShopProvider: React.FC<{ children: React.ReactNode }> = ({ child
     filteredPets,
     activeCategory,
     sortPets,
-    activeSortOption
+    activeSortOption,
+    addPet
   };
 
   return <PetShopContext.Provider value={value}>{children}</PetShopContext.Provider>;
