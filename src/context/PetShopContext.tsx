@@ -2,9 +2,25 @@ import React, { createContext, useContext, useState, useEffect, useMemo } from "
 import { Pet, CartItem, PetCategory, SortOption } from "@/types/PetTypes";
 import { toast } from "sonner";
 
+// Define the order interface
+export interface OrderItem {
+  name: string;
+  price: number;
+}
+
+export interface Order {
+  id: string;
+  userId: string;
+  items: OrderItem[];
+  total: number;
+  date: string;
+  status: string;
+}
+
 interface PetShopContextType {
   pets: Pet[];
   cart: CartItem[];
+  orders: Order[]; // Add orders property to the interface
   addToCart: (pet: Pet) => void;
   removeFromCart: (petId: string) => void;
   updateQuantity: (petId: string, quantity: number) => void;
@@ -180,9 +196,36 @@ const petsData: Pet[] = [
   }
 ];
 
+// Sample orders data
+const ordersData: Order[] = [
+  {
+    id: "1",
+    userId: "user1",
+    items: [
+      { name: "Premium Dog Food", price: 1200 },
+      { name: "Dog Collar", price: 350 }
+    ],
+    total: 1550,
+    date: "2025-04-12",
+    status: "Delivered"
+  },
+  {
+    id: "2",
+    userId: "user1",
+    items: [
+      { name: "Cat Toy Mouse", price: 199 },
+      { name: "Cat Litter Box", price: 899 }
+    ],
+    total: 1098,
+    date: "2025-04-25",
+    status: "Processing"
+  }
+];
+
 export const PetShopProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [pets, setPets] = useState<Pet[]>(petsData);
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [orders, setOrders] = useState<Order[]>(ordersData); // Add orders state
   const [activeCategory, setActiveCategory] = useState<PetCategory | 'all'>('all');
   const [activeSortOption, setActiveSortOption] = useState<SortOption>('name-asc');
 
@@ -304,6 +347,7 @@ export const PetShopProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const value = {
     pets,
     cart,
+    orders, // Include orders in the context value
     addToCart,
     removeFromCart,
     updateQuantity,

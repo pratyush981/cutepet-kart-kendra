@@ -23,7 +23,7 @@ const UserDashboardPage = () => {
   );
   
   // Filter orders for current user
-  const userOrders = orders ? orders.filter(order => order.userId === user?.id) : [];
+  const userOrders = orders.filter(order => order.userId === user?.id);
   
   return (
     <Layout>
