@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Check, X, Plus, UserPlus, FileText } from "lucide-react";
+import { Check, X, Plus, UserPlus, FileText, Shield } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import AddPetForm from "@/components/admin/AddPetForm";
 
@@ -22,7 +22,10 @@ const AdminDashboardPage = () => {
   return (
     <Layout>
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-2">Admin Dashboard</h1>
+        <div className="flex items-center gap-2 mb-2">
+          <Shield className="h-6 w-6 text-petshop-purple" />
+          <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+        </div>
         <p className="text-muted-foreground mb-6">Manage pets, adoptions, and users</p>
         
         <Tabs 
