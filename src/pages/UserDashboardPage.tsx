@@ -10,7 +10,7 @@ import { usePetShop } from "@/context/PetShopContext";
 
 const UserDashboardPage = () => {
   const { isAuthenticated, isAdmin, user, adoptionRequests } = useAuth();
-  const { cart } = usePetShop();
+  const { cart, orders } = usePetShop();
   
   // Redirect if not authenticated or if admin (admins have their own dashboard)
   if (!isAuthenticated() || isAdmin()) {
@@ -21,6 +21,9 @@ const UserDashboardPage = () => {
   const userAdoptionRequests = adoptionRequests.filter(
     request => request.userId === user?.id
   );
+  
+  // Filter orders for current user
+  const userOrders = orders ? orders.filter(order => order.userId === user?.id) : [];
   
   return (
     <Layout>
@@ -97,10 +100,45 @@ const UserDashboardPage = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-center py-8">
-                  <ShoppingBag className="h-12 w-12 text-muted-foreground mx-auto mb-3" />
-                  <p>You haven't made any purchases yet</p>
-                </div>
+                {userOrders.length === 0 ? (
+                  <div className="text-center py-8">
+                    <ShoppingBag className="h-12 w-12 text-muted-foreground mx-auto mb-3" />
+                    <p>You haven't made any purchases yet</p>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {userOrders.map((order) => (
+                      <div 
+                        key={order.id} 
+                        className="border rounded-lg p-4"
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="font-medium">Order #{order.id}</div>
+                          <Badge>
+                            {order.status}
+                          </Badge>
+                        </div>
+                        <div className="text-sm mt-2">
+                          {order.items.map((item, index) => (
+                            <div key={index} className="flex justify-between py-1 border-b last:border-0">
+                              <span>{item.name}</span>
+                              <span className="font-medium">₹{item.price.toLocaleString()}</span>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="flex justify-between mt-3 pt-2 border-t">
+                          <span className="font-semibold">Total:</span>
+                          <span className="font-bold text-petshop-purple">
+                            ₹{order.total.toLocaleString()}
+                          </span>
+                        </div>
+                        <div className="text-xs text-muted-foreground mt-2">
+                          Placed on: {new Date(order.date).toLocaleDateString()}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>
