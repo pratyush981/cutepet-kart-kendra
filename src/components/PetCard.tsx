@@ -2,9 +2,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Heart } from "lucide-react";
+import { ShoppingCart, Heart, PawPrint } from "lucide-react";
 import { Pet } from "@/types/PetTypes";
 import { usePetShop } from "@/context/PetShopContext";
+import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/components/ui/use-toast";
 
 interface PetCardProps {
@@ -13,6 +14,7 @@ interface PetCardProps {
 
 const PetCard = ({ pet }: PetCardProps) => {
   const { addToCart } = usePetShop();
+  const { isAuthenticated, createAdoptionRequest } = useAuth();
   const { toast } = useToast();
   const [isLiked, setIsLiked] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -28,6 +30,23 @@ const PetCard = ({ pet }: PetCardProps) => {
         : `${pet.name} was added to your favorites`,
       duration: 2000,
     });
+  };
+
+  const handleAdoptRequest = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (!isAuthenticated()) {
+      toast({
+        title: "Authentication required",
+        description: "Please log in to adopt a pet",
+        variant: "destructive",
+        duration: 3000,
+      });
+      return;
+    }
+    
+    createAdoptionRequest(pet.id);
   };
 
   return (
@@ -70,7 +89,7 @@ const PetCard = ({ pet }: PetCardProps) => {
         </div>
       </Link>
       
-      <div className="px-4 pb-4">
+      <div className="px-4 pb-4 grid grid-cols-2 gap-2">
         <Button 
           onClick={(e) => {
             e.preventDefault();
@@ -81,9 +100,17 @@ const PetCard = ({ pet }: PetCardProps) => {
               duration: 2000,
             });
           }}
-          className={`w-full bg-petshop-purple hover:bg-petshop-dark-purple ${isHovered ? 'animate-bounce-slight' : ''}`}
+          className={`bg-petshop-purple hover:bg-petshop-dark-purple ${isHovered ? 'animate-bounce-slight' : ''}`}
         >
-          <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
+          <ShoppingCart className="mr-2 h-4 w-4" /> Buy
+        </Button>
+        
+        <Button 
+          onClick={handleAdoptRequest}
+          variant="outline"
+          className="border-petshop-purple text-petshop-purple hover:bg-petshop-purple/10"
+        >
+          <PawPrint className="mr-2 h-4 w-4" /> Adopt
         </Button>
       </div>
     </div>

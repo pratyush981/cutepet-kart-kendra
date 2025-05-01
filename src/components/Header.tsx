@@ -2,13 +2,24 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Menu, X, LogIn } from "lucide-react";
+import { 
+  ShoppingCart, 
+  Menu, 
+  X, 
+  LogIn, 
+  LogOut,
+  User,
+  UserPlus,
+  Shield
+} from "lucide-react";
 import { usePetShop } from "@/context/PetShopContext";
-import { useMobile } from "@/hooks/use-mobile";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useAuth } from "@/context/AuthContext";
 
 const Header = () => {
   const { cart } = usePetShop();
-  const { isMobile } = useMobile();
+  const { isAuthenticated, isAdmin, user, logout } = useAuth();
+  const isMobile = useIsMobile();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -77,13 +88,54 @@ const Header = () => {
               >
                 Shop
               </Link>
-              <Link
-                to="/login"
-                className="text-foreground hover:text-petshop-purple flex items-center"
-              >
-                <LogIn className="mr-1 h-4 w-4" />
-                Login
-              </Link>
+              
+              {isAuthenticated() ? (
+                <>
+                  {isAdmin() ? (
+                    <Link
+                      to="/admin"
+                      className="text-foreground hover:text-petshop-purple flex items-center"
+                    >
+                      <Shield className="mr-1 h-4 w-4" />
+                      Admin
+                    </Link>
+                  ) : (
+                    <Link
+                      to="/dashboard"
+                      className="text-foreground hover:text-petshop-purple flex items-center"
+                    >
+                      <User className="mr-1 h-4 w-4" />
+                      Dashboard
+                    </Link>
+                  )}
+                  <Button
+                    variant="ghost"
+                    className="text-foreground hover:text-petshop-purple flex items-center p-0"
+                    onClick={logout}
+                  >
+                    <LogOut className="mr-1 h-4 w-4" />
+                    Logout
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    className="text-foreground hover:text-petshop-purple flex items-center"
+                  >
+                    <LogIn className="mr-1 h-4 w-4" />
+                    Login
+                  </Link>
+                  <Link
+                    to="/signup"
+                    className="text-foreground hover:text-petshop-purple flex items-center"
+                  >
+                    <UserPlus className="mr-1 h-4 w-4" />
+                    Sign Up
+                  </Link>
+                </>
+              )}
+              
               <Link to="/cart" className="relative">
                 <Button
                   variant="outline"
@@ -146,14 +198,59 @@ const Header = () => {
               >
                 Shop
               </Link>
-              <Link
-                to="/login"
-                className="text-lg py-2 border-b flex items-center"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                <LogIn className="mr-2 h-5 w-5" />
-                Login
-              </Link>
+              
+              {isAuthenticated() ? (
+                <>
+                  {isAdmin() ? (
+                    <Link
+                      to="/admin"
+                      className="text-lg py-2 border-b flex items-center"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <Shield className="mr-2 h-5 w-5" />
+                      Admin Dashboard
+                    </Link>
+                  ) : (
+                    <Link
+                      to="/dashboard"
+                      className="text-lg py-2 border-b flex items-center"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <User className="mr-2 h-5 w-5" />
+                      My Dashboard
+                    </Link>
+                  )}
+                  <button
+                    className="text-lg py-2 border-b flex items-center w-full text-left"
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      logout();
+                    }}
+                  >
+                    <LogOut className="mr-2 h-5 w-5" />
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    className="text-lg py-2 border-b flex items-center"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <LogIn className="mr-2 h-5 w-5" />
+                    Login
+                  </Link>
+                  <Link
+                    to="/signup"
+                    className="text-lg py-2 border-b flex items-center"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <UserPlus className="mr-2 h-5 w-5" />
+                    Sign Up
+                  </Link>
+                </>
+              )}
             </nav>
           </div>
         )}

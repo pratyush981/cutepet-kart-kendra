@@ -5,37 +5,21 @@ import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/components/ui/use-toast";
-import { PawPrint } from "lucide-react";
+import { PawPrint, LogIn } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const { login, isLoading } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-
-    // This is a mock login - in a real app, this would validate with a backend
-    setTimeout(() => {
-      setIsLoading(false);
-      if (email && password) {
-        toast({
-          title: "Welcome back!",
-          description: "You have successfully logged in.",
-        });
-        navigate("/");
-      } else {
-        toast({
-          title: "Login failed",
-          description: "Please enter both email and password.",
-          variant: "destructive",
-        });
-      }
-    }, 1000);
+    const success = await login(email, password);
+    if (success) {
+      navigate("/");
+    }
   };
 
   return (
@@ -59,6 +43,7 @@ const LoginPage = () => {
                 placeholder="your@email.com" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
             
@@ -70,22 +55,40 @@ const LoginPage = () => {
                 placeholder="••••••••" 
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
+              <div className="text-right">
+                <Link 
+                  to="/login" 
+                  className="text-sm text-petshop-purple hover:underline"
+                >
+                  Forgot password?
+                </Link>
+              </div>
             </div>
             
-            <Button 
-              type="submit" 
-              className="w-full bg-petshop-purple hover:bg-petshop-dark-purple"
-              disabled={isLoading}
-            >
-              {isLoading ? "Logging in..." : "Login"}
-            </Button>
+            <div className="space-y-2 pt-2">
+              <Button 
+                type="submit" 
+                className="w-full bg-petshop-purple hover:bg-petshop-dark-purple"
+                disabled={isLoading}
+              >
+                <LogIn className="mr-2 h-4 w-4" />
+                {isLoading ? "Logging in..." : "Login"}
+              </Button>
+              
+              <div className="text-center text-sm text-muted-foreground mt-2">
+                <p>Demo accounts:</p>
+                <p>Admin: admin@cutupet.com / admin123</p>
+                <p>User: user@example.com / user123</p>
+              </div>
+            </div>
           </form>
           
           <div className="mt-6 text-center">
             <p className="text-sm text-muted-foreground">
               Don't have an account?{" "}
-              <Link to="/login" className="text-petshop-purple hover:underline">
+              <Link to="/signup" className="text-petshop-purple hover:underline">
                 Sign up
               </Link>
             </p>
